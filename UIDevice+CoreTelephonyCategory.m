@@ -17,7 +17,6 @@ typedef struct CTResult {
 
 extern struct CTServerConnection *_CTServerConnectionCreate(CFAllocatorRef, int (*)(void *, CFStringRef, CFDictionaryRef, void *), int *);
 extern int *_CTServerConnectionCopyMobileEquipmentInfo(CTResult *status, struct CTServerConnection *connection, CFMutableDictionaryRef *equipmentInfo);
-extern CFTypeRef _CTServerConnectionCopyPreferredPhoneNumber(CTResult *status, struct CTServerConnection *connection, CFMutableDictionaryRef *equipmentInfo);
 static int callback(void *connection, CFStringRef string, CFDictionaryRef dictionary, void *data) {
     return 0;
 }
