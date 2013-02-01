@@ -13,7 +13,7 @@
 @interface UIDevice (CoreTelephony)
 
 - (NSString *)IMEI;
-- (NSString *)CMID; // Current Mobile Identifier. Genernally, it's same as IMEI.
+- (NSString *)CMID; // Current Mobile Identifier. Genernally, it's same as IMEI, but CDMA carrier maybe not.
 - (NSString *)ICCID;
 
 - (NSString *)IMSI;
