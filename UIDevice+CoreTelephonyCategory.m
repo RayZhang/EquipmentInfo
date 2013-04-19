@@ -15,8 +15,9 @@ typedef struct CTResult {
     int a;
 } CTResult;
 
-extern struct CTServerConnection *_CTServerConnectionCreate(CFAllocatorRef, int (*)(void *, CFStringRef, CFDictionaryRef, void *), int *);
-extern int *_CTServerConnectionCopyMobileEquipmentInfo(CTResult *status, struct CTServerConnection *connection, CFMutableDictionaryRef *equipmentInfo);
+extern CFTypeRef _CTServerConnectionCreate(CFAllocatorRef, int (*)(void *, CFStringRef, CFDictionaryRef, void *), int *);
+extern void _CTServerConnectionCopyMobileEquipmentInfo(CTResult *status, CFTypeRef connection, CFMutableDictionaryRef *equipmentInfo);
+
 static int callback(void *connection, CFStringRef string, CFDictionaryRef dictionary, void *data) {
     return 0;
 }
@@ -27,12 +28,16 @@ static int callback(void *connection, CFStringRef string, CFDictionaryRef dictio
 
 - (NSString *)coreTelephonyInfoForKey:(const NSString *)key {
     NSString *retVal = nil;
-    struct CTServerConnection *ctsc = _CTServerConnectionCreate(kCFAllocatorDefault, callback, NULL);
-    struct CTResult result;
-    CFMutableDictionaryRef equipmentInfo = nil;
-    _CTServerConnectionCopyMobileEquipmentInfo(&result, ctsc, &equipmentInfo);
-    if (equipmentInfo) {
-        retVal = CFDictionaryGetValue(equipmentInfo, key);
+    CFTypeRef ctsc = _CTServerConnectionCreate(kCFAllocatorDefault, callback, NULL);
+    if (ctsc) {
+        struct CTResult result;
+        CFMutableDictionaryRef equipmentInfo = nil;
+        _CTServerConnectionCopyMobileEquipmentInfo(&result, ctsc, &equipmentInfo);
+        if (equipmentInfo) {
+            retVal = [NSString stringWithString:CFDictionaryGetValue(equipmentInfo, key)];
+            CFRelease(equipmentInfo);
+        }
+        CFRelease(ctsc);
     }
     return retVal;
 }
