@@ -39,6 +39,7 @@ static int callback(void *connection, CFStringRef string, CFDictionaryRef dictio
         }
         CFRelease(ctsc);
     }
+
     return retVal;
 }
 
