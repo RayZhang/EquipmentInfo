@@ -12,13 +12,13 @@
 
 @interface UIDevice (CoreTelephony)
 
-- (NSString *)IMEI;
-- (NSString *)CMID; // Current Mobile Identifier. Genernally, it's same as IMEI, but CDMA carrier maybe not.
-- (NSString *)ICCID;
++ (NSString *)IMEI;
++ (NSString *)CMID; // Current Mobile Identifier. Genernally, it's same as IMEI, but CDMA carrier maybe not.
++ (NSString *)ICCID;
 
-- (NSString *)IMSI;
-- (NSString *)CSID; // Current Subscriber Identifier. Genernally, it is same as IMSI, but CDMA carrier is not.
++ (NSString *)IMSI;
++ (NSString *)CSID; // Current Subscriber Identifier. Genernally, it is same as IMSI, but CDMA carrier is not.
 
-- (NSString *)MEID; // Just for CDMA carrier.
++ (NSString *)MEID; // Just for CDMA carrier.
 
 @end

@@ -26,7 +26,7 @@ static int callback(void *connection, CFStringRef string, CFDictionaryRef dictio
 
 // Core Telephony Device Information
 
-- (NSString *)coreTelephonyInfoForKey:(const NSString *)key {
++ (NSString *)coreTelephonyInfoForKey:(const NSString *)key {
     NSString *retVal = nil;
     CFTypeRef ctsc = _CTServerConnectionCreate(kCFAllocatorDefault, callback, NULL);
     if (ctsc) {
@@ -34,35 +34,38 @@ static int callback(void *connection, CFStringRef string, CFDictionaryRef dictio
         CFMutableDictionaryRef equipmentInfo = nil;
         _CTServerConnectionCopyMobileEquipmentInfo(&result, ctsc, &equipmentInfo);
         if (equipmentInfo) {
-            retVal = [NSString stringWithString:CFDictionaryGetValue(equipmentInfo, key)];
+            CFStringRef value = CFDictionaryGetValue(equipmentInfo, key);
+            if (value) {
+                retVal = [NSString stringWithString:(id)value];
+            }
             CFRelease(equipmentInfo);
         }
         CFRelease(ctsc);
-    }
+	}	
     return retVal;
 }
 
-- (NSString *)IMEI {
++ (NSString *)IMEI {
     return [self coreTelephonyInfoForKey:@"kCTMobileEquipmentInfoIMEI"];
 }
 
-- (NSString *)CMID {
++ (NSString *)CMID {
     return [self coreTelephonyInfoForKey:@"kCTMobileEquipmentInfoCurrentMobileId"];
 }
 
-- (NSString *)ICCID {
++ (NSString *)ICCID {
     return [self coreTelephonyInfoForKey:@"kCTMobileEquipmentInfoICCID"];
 }
 
-- (NSString *)MEID {
++ (NSString *)MEID {
     return [self coreTelephonyInfoForKey:@"kCTMobileEquipmentInfoMEID"];
 }
 
-- (NSString *)IMSI {
++ (NSString *)IMSI {
     return [self coreTelephonyInfoForKey:@"kCTMobileEquipmentInfoIMSI"];
 }
 
-- (NSString *)CSID {
++ (NSString *)CSID {
     return [self coreTelephonyInfoForKey:@"kCTMobileEquipmentInfoCurrentSubscriberId"];
 }
 
