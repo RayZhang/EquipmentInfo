@@ -15,8 +15,15 @@ typedef struct CTResult {
     int a;
 } CTResult;
 
-extern CFTypeRef _CTServerConnectionCreate(CFAllocatorRef, int (*)(void *, CFStringRef, CFDictionaryRef, void *), int *);
-extern void _CTServerConnectionCopyMobileEquipmentInfo(CTResult *status, CFTypeRef connection, CFMutableDictionaryRef *equipmentInfo);
+typedef const struct __CTServerConnection * CTServerConnectionRef;
+
+extern CTServerConnectionRef _CTServerConnectionCreate(CFAllocatorRef, int (*)(void *, CFStringRef, CFDictionaryRef, void *), int *);
+
+#ifdef __arm__
+extern void _CTServerConnectionCopyMobileEquipmentInfo(CTResult *status, CTServerConnectionRef connection, CFMutableDictionaryRef *equipmentInfo);
+#elif defined __arm64__
+extern void _CTServerConnectionCopyMobileEquipmentInfo(CTServerConnectionRef connection, CFMutableDictionaryRef *equipmentInfo, NSInteger *unknown);
+#endif
 
 static int callback(void *connection, CFStringRef string, CFDictionaryRef dictionary, void *data) {
     return 0;
@@ -28,11 +35,15 @@ static int callback(void *connection, CFStringRef string, CFDictionaryRef dictio
 
 + (NSString *)coreTelephonyInfoForKey:(const NSString *)key {
     NSString *retVal = nil;
-    CFTypeRef ctsc = _CTServerConnectionCreate(kCFAllocatorDefault, callback, NULL);
+    CTServerConnectionRef ctsc = _CTServerConnectionCreate(kCFAllocatorDefault, callback, NULL);
     if (ctsc) {
-        struct CTResult result;
         CFMutableDictionaryRef equipmentInfo = nil;
+#ifdef __arm__
+        struct CTResult result;
         _CTServerConnectionCopyMobileEquipmentInfo(&result, ctsc, &equipmentInfo);
+#elif defined __arm64__
+        _CTServerConnectionCopyMobileEquipmentInfo(ctsc, &equipmentInfo, NULL);
+#endif
         if (equipmentInfo) {
             CFStringRef value = CFDictionaryGetValue(equipmentInfo, key);
             if (value) {
