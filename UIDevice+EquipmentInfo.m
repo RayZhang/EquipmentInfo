@@ -178,11 +178,19 @@ static const CFStringRef kIOPlatformSerialNumber = CFSTR("IOPlatformSerialNumber
     sdl = (struct sockaddr_dl *)(ifm + 1);
     ptr = (unsigned char *)LLADDR(sdl);
     
-    NSString *outstring = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X", *ptr, *(ptr+1), *(ptr+2), *(ptr+3), *(ptr+4), *(ptr+5)];
-
+    NSMutableString *outString = [[NSMutableString alloc] initWithCapacity:14];
+    for (int i = 0; i < 6; i++) {
+        if (i < 5) {
+            [outString appendFormat:@"%02X:", ptr[i]];
+        } else {
+            [outString appendFormat:@"%02X", ptr[i]];
+        }
+    }
+    NSString *retVal = [NSString stringWithString:outString];
+    [outString release];
     free(buf);
     
-    return outstring;
+    return retVal;
 }
 
 + (NSString *)systemModel {
