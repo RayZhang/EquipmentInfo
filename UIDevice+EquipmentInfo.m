@@ -31,7 +31,7 @@ extern const NSString * const kCTMobileEquipmentInfoMEID;
 extern const NSString * const kCTMobileEquipmentInfoPRLVersion;
 static const NSString * const kCTMobileEquipmentInfoIMSI;
 
-- (NSString *)mobileDeviceInfoForKey:(const NSString *)key {
++ (NSString *)mobileDeviceInfoForKey:(const NSString *)key {
     NSString *retVal = nil;
     CFTypeRef ctsc = _CTServerConnectionCreate(kCFAllocatorDefault, callback, NULL);
     if (ctsc) {
@@ -47,28 +47,28 @@ static const NSString * const kCTMobileEquipmentInfoIMSI;
     return retVal;
 }
 
-- (NSString *)ERIVersion {
++ (NSString *)ERIVersion {
     return [self mobileDeviceInfoForKey:kCTMobileEquipmentInfoERIVersion];
 }
 
-- (NSString *)ICCID {
++ (NSString *)ICCID {
     return [self mobileDeviceInfoForKey:kCTMobileEquipmentInfoICCID];
 }
 
-- (NSString *)IMEI {
++ (NSString *)IMEI {
     //To avoid crash on 64-bit runtime, we use shared memory to fetch IMEI instead
     return [self mobileDeviceInfoForKey:kCTMobileEquipmentInfoIMEI];
 }
 
-- (NSString *)IMSI {
++ (NSString *)IMSI {
     return [self mobileDeviceInfoForKey:kCTMobileEquipmentInfoIMSI];
 }
 
-- (NSString *)MEID {
++ (NSString *)MEID {
     return [self mobileDeviceInfoForKey:kCTMobileEquipmentInfoMEID];
 }
 
-- (NSString *)PRLVersion {
++ (NSString *)PRLVersion {
     return [self mobileDeviceInfoForKey:kCTMobileEquipmentInfoPRLVersion];
 }
 
@@ -79,15 +79,15 @@ static const CFStringRef kMobileDeviceUniqueIdentifier = CFSTR("UniqueDeviceID")
 static const CFStringRef kMobileDeviceCPUArchitecture = CFSTR("CPUArchitecture");
 static const CFStringRef kMobileDeviceSerialNumber = CFSTR("SerialNumber");
 
-- (NSString *)UDID {
++ (NSString *)UDID {
     return [MGCopyAnswer(kMobileDeviceUniqueIdentifier) autorelease];
 }
 
-- (NSString *)CPUArchitecture {
++ (NSString *)CPUArchitecture {
     return [MGCopyAnswer(kMobileDeviceCPUArchitecture) autorelease];
 }
 
-- (NSString *)serialNumber {
++ (NSString *)serialNumber {
     return [MGCopyAnswer(kMobileDeviceSerialNumber) autorelease];
 }
 
@@ -102,7 +102,7 @@ static const CFStringRef kIODeviceSerialNumber = CFSTR("serial-number");
 static const CFStringRef kIOPlatformUUID = CFSTR("IOPlatformUUID");
 static const CFStringRef kIOPlatformSerialNumber = CFSTR("IOPlatformSerialNumber");
 
-- (NSString *)IODeviceInfoForKey:(CFStringRef)key {
++ (NSString *)IODeviceInfoForKey:(CFStringRef)key {
     NSString *retVal = nil;
     io_registry_entry_t entry = IORegistryGetRootEntry(kIOMasterPortDefault);
     if (entry) {
@@ -126,24 +126,24 @@ static const CFStringRef kIOPlatformSerialNumber = CFSTR("IOPlatformSerialNumber
     return retVal;
 }
 
-- (NSString *)platformModel {
++ (NSString *)platformModel {
     return [self IODeviceInfoForKey:kIODeviceModel];
 }
 
-- (NSString *)deviceIMEI {
++ (NSString *)deviceIMEI {
     //To avoid crash on 64-bit runtime, we use shared memory to fetch IMEI instead
     return [self IODeviceInfoForKey:kIODeviceIMEI];
 }
 
-- (NSString *)deviceSerialNumber {
++ (NSString *)deviceSerialNumber {
     return [self IODeviceInfoForKey:kIODeviceSerialNumber];
 }
 
-- (NSString *)platformUUID {
++ (NSString *)platformUUID {
     return [self IODeviceInfoForKey:kIOPlatformUUID];
 }
 
-- (NSString *)platformSerialNumber {
++ (NSString *)platformSerialNumber {
     return [self IODeviceInfoForKey:kIOPlatformSerialNumber];
 }
 
@@ -153,7 +153,7 @@ static const CFStringRef kIOPlatformSerialNumber = CFSTR("IOPlatformSerialNumber
 #include <sys/sysctl.h>
 #include <net/if.h>
 #include <net/if_dl.h>
-- (NSString *)macAddress {
++ (NSString *)macAddress {
     int mib[6] = {CTL_NET, AF_ROUTE, 0, AF_LINK, NET_RT_IFLIST};
     size_t len = 0;
     char *buf = NULL;
@@ -185,7 +185,7 @@ static const CFStringRef kIOPlatformSerialNumber = CFSTR("IOPlatformSerialNumber
     return outstring;
 }
 
-- (NSString *)systemModel {
++ (NSString *)systemModel {
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
     char *answer = malloc(size);

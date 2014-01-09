@@ -11,28 +11,28 @@
 @interface UIDevice (EquipmentInfo)
 
 // Core Telephony Device Information
-- (NSString *)ERIVersion;
-- (NSString *)ICCID;
-- (NSString *)IMEI;
-- (NSString *)IMSI;
-- (NSString *)MEID;
-- (NSString *)PRLVersion;
++ (NSString *)ERIVersion;
++ (NSString *)ICCID;
++ (NSString *)IMEI;
++ (NSString *)IMSI;
++ (NSString *)MEID;
++ (NSString *)PRLVersion;
 
 // UIKit Device Inforation
-- (NSString *)UDID;
-- (NSString *)CPUArchitecture;
-- (NSString *)serialNumber;
++ (NSString *)UDID;
++ (NSString *)CPUArchitecture;
++ (NSString *)serialNumber;
 
 // IOKit Device Information
-- (NSString *)deviceIMEI;
-- (NSString *)deviceSerialNumber;
++ (NSString *)deviceIMEI;
++ (NSString *)deviceSerialNumber;
 
-- (NSString *)platformModel;
-- (NSString *)platformUUID;
-- (NSString *)platformSerialNumber;
++ (NSString *)platformModel;
++ (NSString *)platformUUID;
++ (NSString *)platformSerialNumber;
 
 // System Control Device Information
-- (NSString *)systemModel;
-- (NSString *)macAddress;
++ (NSString *)systemModel;
++ (NSString *)macAddress;
 
 @end
