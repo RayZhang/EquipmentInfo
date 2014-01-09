@@ -1,6 +1,5 @@
 //
 //  UIDevice+EquipmentInfo.m
-//  bsd
 //
 //  Created by Ray Zhang on 13-1-8.
 //
@@ -8,8 +7,6 @@
 //
 
 #import "UIDevice+EquipmentInfo.h"
-
-#import "IMEIManager.h"
 
 @implementation UIDevice (EquipmentInfo)
 

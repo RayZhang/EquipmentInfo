@@ -1,6 +1,5 @@
 //
 //  UIDevice+EquipmentInfo.h
-//  bsd
 //
 //  Created by Ray Zhang on 13-1-8.
 //
