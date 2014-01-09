@@ -57,8 +57,7 @@ static const NSString * const kCTMobileEquipmentInfoIMSI;
 
 - (NSString *)IMEI {
     //To avoid crash on 64-bit runtime, we use shared memory to fetch IMEI instead
-    //return [self mobileDeviceInfoForKey:kCTMobileEquipmentInfoIMEI];
-    return [[IMEIManager sharedManager] IMEI];
+    return [self mobileDeviceInfoForKey:kCTMobileEquipmentInfoIMEI];
 }
 
 - (NSString *)IMSI {
@@ -133,8 +132,7 @@ static const CFStringRef kIOPlatformSerialNumber = CFSTR("IOPlatformSerialNumber
 
 - (NSString *)deviceIMEI {
     //To avoid crash on 64-bit runtime, we use shared memory to fetch IMEI instead
-    //return [self IODeviceInfoForKey:kIODeviceIMEI];
-    return [[IMEIManager sharedManager] IMEI];
+    return [self IODeviceInfoForKey:kIODeviceIMEI];
 }
 
 - (NSString *)deviceSerialNumber {
