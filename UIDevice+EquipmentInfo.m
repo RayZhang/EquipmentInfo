@@ -178,7 +178,7 @@ static const CFStringRef kIOPlatformSerialNumber = CFSTR("IOPlatformSerialNumber
     sdl = (struct sockaddr_dl *)(ifm + 1);
     ptr = (unsigned char *)LLADDR(sdl);
     
-    NSMutableString *outString = [[NSMutableString alloc] initWithCapacity:14];
+    NSMutableString *outString = [[NSMutableString alloc] initWithCapacity:6];
     for (int i = 0; i < 6; i++) {
         if (i < 5) {
             [outString appendFormat:@"%02X:", ptr[i]];
