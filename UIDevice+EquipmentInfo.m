@@ -56,7 +56,6 @@ static const NSString * const kCTMobileEquipmentInfoIMSI;
 }
 
 + (NSString *)IMEI {
-    //To avoid crash on 64-bit runtime, we use shared memory to fetch IMEI instead
     return [self mobileDeviceInfoForKey:kCTMobileEquipmentInfoIMEI];
 }
 
@@ -93,14 +92,12 @@ static const CFStringRef kMobileDeviceSerialNumber = CFSTR("SerialNumber");
 
 // IOKit Device Information
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#import <IOKit/IOKitKeys.h>
 #import <IOKit/IOKitLib.h>
 static const CFStringRef kIODeviceModel = CFSTR("model");
 
 static const CFStringRef kIODeviceIMEI = CFSTR("device-imei");
 static const CFStringRef kIODeviceSerialNumber = CFSTR("serial-number");
-
-static const CFStringRef kIOPlatformUUID = CFSTR("IOPlatformUUID");
-static const CFStringRef kIOPlatformSerialNumber = CFSTR("IOPlatformSerialNumber");
 
 + (NSString *)IODeviceInfoForKey:(CFStringRef)key {
     NSString *retVal = nil;
@@ -131,7 +128,6 @@ static const CFStringRef kIOPlatformSerialNumber = CFSTR("IOPlatformSerialNumber
 }
 
 + (NSString *)deviceIMEI {
-    //To avoid crash on 64-bit runtime, we use shared memory to fetch IMEI instead
     return [self IODeviceInfoForKey:kIODeviceIMEI];
 }
 
@@ -140,11 +136,11 @@ static const CFStringRef kIOPlatformSerialNumber = CFSTR("IOPlatformSerialNumber
 }
 
 + (NSString *)platformUUID {
-    return [self IODeviceInfoForKey:kIOPlatformUUID];
+    return [self IODeviceInfoForKey:CFSTR(kIOPlatformUUIDKey)];
 }
 
 + (NSString *)platformSerialNumber {
-    return [self IODeviceInfoForKey:kIOPlatformSerialNumber];
+    return [self IODeviceInfoForKey:CFSTR(kIOPlatformSerialNumberKey)];
 }
 
 // System Control Device Information
