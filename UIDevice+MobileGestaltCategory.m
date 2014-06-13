@@ -52,10 +52,24 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
     NSString *retVal = nil;
     CFTypeRef tmp = MGCopyAnswer(CFSTR("SerialNumber"));
     if (tmp) {
-        retVal = [NSString stringWithString:tmp];
+        retVal = [NSString stringWithString:(__bridge NSString *)tmp];
         CFRelease(tmp);
     }
     return retVal;
+}
+
+- (NSString *)modelNumberWithRegionInfo {
+	NSString *retVal = nil;
+	CFTypeRef modelNumber = MGCopyAnswer(CFSTR("ModelNumber"));
+	if(modelNumber) {
+		CFTypeRef regionInfo = MGCopyAnswer(CFSTR("RegionInfo"));
+		if(regionInfo) {
+			retVal = [NSString stringWithFormat:@"%@%@", (__bridge NSString *)modelNumber, (__bridge NSString *)regionInfo];
+			CFRelease(regionInfo);
+		}
+		CFRelease(modelNumber);
+	}
+	return retVal;
 }
 
 - (NSString *)wifiAddress {
@@ -111,3 +125,94 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
 }
 
 @end
+
+/*
+
+All Keys:
+
+DieId
+SerialNumber
+UniqueChipID
+WifiAddress
+CPUArchitecture
+BluetoothAddress
+EthernetMacAddress
+FirmwareVersion
+MLBSerialNumber
+ModelNumber
+RegionInfo
+RegionCode
+DeviceClass
+ProductType
+DeviceName
+UserAssignedDeviceName
+HWModelStr
+SigningFuse
+SoftwareBehavior
+SupportedKeyboards
+BuildVersion
+ProductVersion
+ReleaseType
+InternalBuild
+CarrierInstallCapability
+IsUIBuild
+InternationalMobileEquipmentIdentity
+MobileEquipmentIdentifier
+DeviceColor
+HasBaseband
+SupportedDeviceFamilies
+SoftwareBundleVersion
+SDIOManufacturerTuple
+SDIOProductInfo
+UniqueDeviceID
+InverseDeviceID
+ChipID
+PartitionType
+ProximitySensorCalibration
+CompassCalibration
+WirelessBoardSnum
+BasebandBoardSnum
+HardwarePlatform
+RequiredBatteryLevelForSoftwareUpdate
+IsThereEnoughBatteryLevelForSoftwareUpdate
+BasebandRegionSKU
+encrypted-data-partition
+BasebandKeyHashInformation
+SysCfg
+DiagData
+BasebandFirmwareManifestData
+SIMTrayStatus
+CarrierBundleInfoArray
+AirplaneMode
+IsProductTypeValid
+BoardId
+AllDeviceCapabilities
+wi-fi
+SBAllowSensitiveUI
+green-tea
+not-green-tea
+AllowYouTube
+AllowYouTubePlugin
+SBCanForceDebuggingInfo
+AppleInternalInstallCapability
+HasAllFeaturesCapability
+ScreenDimensions
+IsSimulator
+BasebandSerialNumber
+BasebandChipId
+BasebandCertId
+BasebandSkeyId
+BasebandFirmwareVersion
+cellular-data
+contains-cellular-radio
+RegionalBehaviorGoogleMail
+RegionalBehaviorVolumeLimit
+RegionalBehaviorShutterClick
+RegionalBehaviorNTSC
+RegionalBehaviorNoWiFi
+RegionalBehaviorChinaBrick
+RegionalBehaviorNoVOIP
+RegionalBehaviorGB18030
+RegionalBehaviorAll
+ApNonce
+*/
